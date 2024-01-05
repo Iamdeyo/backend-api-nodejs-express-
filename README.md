@@ -1,9 +1,9 @@
-## Environment Setup
 
-Install Node,js and set up a basic project
-structure.
+# KODECAMP
+## 30 days challenge
 
-1. Set up Git
-2. Set up Code Style and Linting Rules
-3. Create a README file containing your
-   task.
+#30daysDesignChallenge 
+#30daysCodeChallenge 
+#KodeCamp
+
+19th December - 29th January 2024
