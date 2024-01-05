@@ -1,3 +1,3 @@
-## Routing
+## Middleware
 
-Implement different routes in your Express application.
+Explore middleware functions in Express and implement custom middleware.
