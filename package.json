@@ -22,6 +22,8 @@
     "prettier": "^3.1.1"
   },
   "dependencies": {
+    "eslint-plugin-functional": "^6.0.0",
+    "eslint-plugin-no-loops": "^0.3.0",
     "express": "^4.18.2"
   }
 }
