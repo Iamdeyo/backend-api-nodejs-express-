@@ -1,9 +1,3 @@
-## Environment Setup
+## Setting a HTTP Server
 
-Install Node,js and set up a basic project
-structure.
-
-1. Set up Git
-2. Set up Code Style and Linting Rules
-3. Create a README file containing your
-   task.
+Create a simple HTTP server that responds with "Welcome to KodeCamp 30-Day Code Challenge!”
