@@ -1,3 +1,3 @@
-## MongoDB Setup
+## Mongoose
 
-Install MongoDB and set up a connection from your Node,js app
+Learn Mongoose, an ODM for MongoDB, and create a schema for your data.
