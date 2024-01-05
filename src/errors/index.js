@@ -6,11 +6,32 @@ const notFound = (req, res) => {
 
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
+  let httpStatusCode = 500;
+  let message = 'Internal Server Error';
+  let stackTrace;
+
   if (err instanceof CustomErrorHandler) {
-    return res.status(err.statusCode).json({ message: err.message });
+    httpStatusCode = err.statusCode;
+    message = err.message;
+
+    // Hide the detailed error message in production for security reasons
   }
 
-  return res.status(500).json({ message: 'Server Error' });
+  if (process.env.NODE_ENV !== 'production') {
+    if (typeof err === 'string' || err instanceof Error) {
+      message = err.message || err;
+    }
+    stackTrace = err.stack;
+    // eslint-disable-next-line no-console
+    // console.error(err);
+  }
+
+  return res.status(httpStatusCode).json({
+    error: {
+      message,
+      stackTrace,
+    },
+  });
 };
 
 export { notFound, errorHandler };
