@@ -1,9 +1,31 @@
 import express from 'express';
+import User from '../model/user.js';
 
 const router = express.Router();
 
-router.all('/test-route', (req, res) => {
-  res.send('test-route is available');
+router.get('/create-user', async (req, res) => {
+  try {
+    const user = await User.create({
+      username: 'John',
+      email: `John${Math.random()}@example.com`,
+      password: 'password',
+    });
+
+    res.status(201).json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
+});
+router.get('/get-users', async (req, res) => {
+  try {
+    const users = await User.find();
+
+    res.status(200).json(users);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
 });
 
 export default router;
