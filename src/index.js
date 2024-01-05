@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import router from './routes/index.js';
 import db from './db/index.js';
+import { errorHandler, notFound } from './errors/index.js';
 
 const app = express();
 dotenv.config();
@@ -30,6 +31,12 @@ app.use(router);
 app.get('/', (req, res) => {
   res.send('Welcome to KodeCamp 30-Day Code Challenge! with express server');
 });
+
+/**
+ * Error handler
+ */
+app.use(errorHandler);
+app.use(notFound);
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console

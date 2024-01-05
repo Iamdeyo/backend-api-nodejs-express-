@@ -1,5 +1,6 @@
 import express from 'express';
 import User from '../model/user.js';
+import CustomErrorHandler from '../errors/CustomErrorHandler.js';
 
 const router = express.Router();
 
@@ -26,6 +27,10 @@ router.get('/get-users', async (req, res) => {
     console.log(error);
     res.status(500).json({ error });
   }
+});
+
+router.get('/test-error', () => {
+  throw new CustomErrorHandler('Error Testing', 400);
 });
 
 export default router;
