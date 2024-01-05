@@ -5,9 +5,11 @@ import { xss } from 'express-xss-sanitizer';
 import helmet from 'helmet';
 import cors from 'cors';
 import router from './routes/index.js';
+import db from './db/index.js';
 
 const app = express();
 dotenv.config();
+db.init();
 
 const port = process.env.PORT || 3000;
 
