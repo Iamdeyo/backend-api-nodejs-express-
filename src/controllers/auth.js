@@ -2,6 +2,8 @@ import User from '../model/user.js';
 import response from '../utils/response.js';
 import httpStatusCodes from '../utils/httpStatusCodes.js';
 import asyncWrapper from '../middlewares/asyncWrapper.js';
+import CustomErrorHandler from '../errors/CustomErrorHandler.js';
+import jwt from 'jsonwebtoken';
 
 const signUp = asyncWrapper(async (req, res) => {
   const { username, email, password } = req.body;
@@ -15,6 +17,32 @@ const signUp = asyncWrapper(async (req, res) => {
   );
 });
 
-const signIn = () => {};
+const signIn = asyncWrapper(async (req, res, next) => {
+  const { username, email, password } = req.body;
+
+  const user = await User.findOne({ $or: [{ username }, { email }] });
+
+  if (!user) {
+    return next(
+      new CustomErrorHandler('User not found', httpStatusCodes.NOT_FOUND),
+    );
+  }
+
+  if (user.password !== password) {
+    return next(
+      new CustomErrorHandler('Invaild Password', httpStatusCodes.NOT_FOUND),
+    );
+  }
+
+  const token = jwt.sign(
+    { id: user.id, username: user.username },
+    'token_secret',
+  );
+
+  return response(res, httpStatusCodes.OK, true, 'Login successful', {
+    user,
+    token,
+  });
+});
 
 export { signUp, signIn };

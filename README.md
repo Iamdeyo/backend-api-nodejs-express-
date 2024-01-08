@@ -1,3 +1,3 @@
-## User Registration
+## User Login
 
-Implement user registration, storing user information securely.
+Setup a secure user login system with JWT authentication.
