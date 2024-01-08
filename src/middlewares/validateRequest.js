@@ -1,3 +1,6 @@
+import response from '../utils/response.js';
+import httpStatusCode from '../utils/httpStatusCodes.js';
+
 const validateRequest = (schema) => {
   return async (req, res, next) => {
     try {
@@ -29,9 +32,14 @@ const validateRequest = (schema) => {
       }
       return next();
     } catch (err) {
-      return res.status(400).json({
-        error: err.details[0].message,
-      });
+      return response(
+        res,
+        httpStatusCode.BAD_REQUEST,
+        false,
+        'Bad Request',
+        null,
+        { message: err.details[0].message },
+      );
     }
   };
 };

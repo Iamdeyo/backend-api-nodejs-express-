@@ -1,4 +1,6 @@
+import response from '../utils/response.js';
 import CustomErrorHandler from './CustomErrorHandler.js';
+import httpStatusCodes from '../utils/httpStatusCodes.js';
 
 const notFound = (req, res) => {
   return res.status(404).json({ message: 'Route Not Found' });
@@ -6,15 +8,13 @@ const notFound = (req, res) => {
 
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
-  let httpStatusCode = 500;
+  let httpStatusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
   let message = 'Internal Server Error';
   let stackTrace;
 
   if (err instanceof CustomErrorHandler) {
     httpStatusCode = err.statusCode;
     message = err.message;
-
-    // Hide the detailed error message in production for security reasons
   }
 
   if (process.env.NODE_ENV !== 'production') {
@@ -26,11 +26,9 @@ const errorHandler = (err, req, res, next) => {
     // console.error(err);
   }
 
-  return res.status(httpStatusCode).json({
-    error: {
-      message,
-      stackTrace,
-    },
+  return response(res, httpStatusCode, false, 'Failure', null, {
+    message,
+    stackTrace,
   });
 };
 
