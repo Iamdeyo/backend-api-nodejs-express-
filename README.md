@@ -1,3 +1,3 @@
-## Validation
+## User Registration
 
-Add a vaildation libary like Joi
+Implement user registration, storing user information securely.
