@@ -1,6 +1,8 @@
 import express from 'express';
 import User from '../model/user.js';
 import CustomErrorHandler from '../errors/CustomErrorHandler.js';
+import validateRequest from '../middlewares/validateRequest.js';
+import testSchema from '../validators/authvalidators.js';
 
 const router = express.Router();
 
@@ -31,6 +33,12 @@ router.get('/get-users', async (req, res) => {
 
 router.get('/test-error', () => {
   throw new CustomErrorHandler('Error Testing', 400);
+});
+
+router.all('/test-validator', validateRequest(testSchema), (req, res) => {
+  return res.status(200).json({
+    success: true,
+  });
 });
 
 export default router;
