@@ -1,13 +1,24 @@
 import Joi from 'joi';
 
 const signUpSchema = {
-  body: Joi.object().keys({
-    email: Joi.string().email().required(),
-    password: Joi.string().min(6).required(),
-    username: Joi.string().min(4).required(),
-  }),
+  body: Joi.object()
+    .keys({
+      email: Joi.string().trim().email().required(),
+      username: Joi.string().trim().alphanum().min(4).max(20).required(),
+      password: Joi.string().min(6).required(),
+      confirmPassword: Joi.ref('password'),
+    })
+    .with('password', 'confirmPassword'),
 };
-const signInSchema = {};
+const signInSchema = {
+  body: Joi.object()
+    .keys({
+      email: Joi.string().trim().email(),
+      username: Joi.string().trim().alphanum().min(4).max(20),
+      password: Joi.string().min(6).required(),
+    })
+    .xor('email', 'username'),
+};
 
 export { signUpSchema, signInSchema };
 

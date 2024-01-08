@@ -1,3 +1,3 @@
-## User Login
+## Password Hashing
 
-Setup a secure user login system with JWT authentication.
+Enchance security by implementing password hashing.

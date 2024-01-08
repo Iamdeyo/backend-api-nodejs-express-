@@ -1,9 +1,9 @@
+import jwt from 'jsonwebtoken';
 import User from '../model/user.js';
 import response from '../utils/response.js';
 import httpStatusCodes from '../utils/httpStatusCodes.js';
 import asyncWrapper from '../middlewares/asyncWrapper.js';
 import CustomErrorHandler from '../errors/CustomErrorHandler.js';
-import jwt from 'jsonwebtoken';
 
 const signUp = asyncWrapper(async (req, res) => {
   const { username, email, password } = req.body;
@@ -28,7 +28,9 @@ const signIn = asyncWrapper(async (req, res, next) => {
     );
   }
 
-  if (user.password !== password) {
+  const isPasswordMatch = await user.comparePassword(password);
+
+  if (!isPasswordMatch) {
     return next(
       new CustomErrorHandler('Invaild Password', httpStatusCodes.NOT_FOUND),
     );
