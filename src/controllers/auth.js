@@ -24,7 +24,10 @@ const signIn = asyncWrapper(async (req, res, next) => {
 
   if (!user) {
     return next(
-      new CustomErrorHandler('User not found', httpStatusCodes.NOT_FOUND),
+      new CustomErrorHandler(
+        'Username or Email does not exist',
+        httpStatusCodes.NOT_FOUND,
+      ),
     );
   }
 

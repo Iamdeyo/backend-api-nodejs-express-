@@ -4,7 +4,7 @@ import httpStatusCodes from '../utils/httpStatusCodes.js';
 import MongoDBErrors from './mongoDBErrors.js';
 
 const notFound = (req, res) => {
-  return res.status(404).json({ message: 'Route Not Found' });
+  return response(res, httpStatusCodes.NOT_FOUND, false, 'Route Not Found');
 };
 
 // eslint-disable-next-line no-unused-vars

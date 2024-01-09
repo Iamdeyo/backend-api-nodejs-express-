@@ -1,3 +1,3 @@
-## Password Hashing
+## User Roles and Permissions
 
-Enchance security by implementing password hashing.
+Implement user roles (admin, regular user) and permissions.
