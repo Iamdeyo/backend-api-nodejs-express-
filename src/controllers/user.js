@@ -7,7 +7,7 @@ import checkPermission from '../middlewares/checkPermission.js';
 
 const getUser = asyncWrapper(async (req, res, next) => {
   const user = await User.findById(req.params.id).select('-password');
-  await user.updateOne({ role: 'USER' });
+  //   await user.updateOne({ role: 'USER' });
   if (!user) {
     return next(
       new CustomErrorHandler('User not found', httpStatusCodes.NOT_FOUND),
@@ -41,6 +41,57 @@ const deleteAuser = asyncWrapper(async (req, res, next) => {
 });
 
 // edit a user
-// update password
+const editUser = asyncWrapper(async (req, res, next) => {
+  const { id } = req.params;
 
-export { deleteAuser, getUser, getUsers };
+  checkPermission(req.user, id, next);
+
+  const user = await User.findByIdAndUpdate(id, req.body).select('-password');
+
+  if (!user) {
+    return next(
+      new CustomErrorHandler('User not found', httpStatusCodes.NOT_FOUND),
+    );
+  }
+
+  return response(res, httpStatusCodes.OK, true, 'user found', user);
+});
+
+const changePassword = asyncWrapper(async (req, res, next) => {
+  const { id } = req.params;
+  const { oldPassword, password } = req.body;
+
+  checkPermission(req.user, id, next);
+
+  const user = await User.findById(id);
+  if (!user) {
+    return next(
+      new CustomErrorHandler(
+        "User doesn't exist or already deleted",
+        httpStatusCodes.NOT_FOUND,
+      ),
+    );
+  }
+
+  const isPasswordMatch = await user.comparePassword(oldPassword);
+
+  if (!isPasswordMatch) {
+    return next(
+      new CustomErrorHandler('Invaild Password', httpStatusCodes.NOT_FOUND),
+    );
+  }
+
+  user.password = password;
+
+  const updatedUser = await user.save();
+
+  return response(
+    res,
+    httpStatusCodes.OK,
+    true,
+    'Password Changed',
+    updatedUser,
+  );
+});
+
+export { deleteAuser, getUser, getUsers, changePassword, editUser };
