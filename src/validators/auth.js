@@ -7,6 +7,8 @@ const signUpSchema = {
       username: Joi.string().trim().alphanum().min(4).max(20).required(),
       password: Joi.string().min(6).required(),
       confirmPassword: Joi.ref('password'),
+      firstName: Joi.string().max(20).required(),
+      lastName: Joi.string().max(20).required(),
     })
     .with('password', 'confirmPassword'),
 };

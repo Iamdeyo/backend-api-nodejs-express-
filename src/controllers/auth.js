@@ -6,8 +6,9 @@ import asyncWrapper from '../middlewares/asyncWrapper.js';
 import CustomErrorHandler from '../errors/CustomErrorHandler.js';
 
 const signUp = asyncWrapper(async (req, res) => {
-  const { username, email, password } = req.body;
-  const user = await User.create({ username, email, password });
+  // const { username, email, password, firstName, lastName } = req.body;
+  // console.log(req.body);
+  const user = await User.create(req.body);
   return response(
     res,
     httpStatusCodes.CREATED,
