@@ -1,3 +1,3 @@
-## User Roles and Permissions
+## JWT Refresh token
 
-Implement user roles (admin, regular user) and permissions.
+Implement JWT refresh tokens to enchance token security.

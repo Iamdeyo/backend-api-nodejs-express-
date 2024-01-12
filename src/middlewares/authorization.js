@@ -1,8 +1,8 @@
-import jwt from 'jsonwebtoken';
 import User from '../model/user.js';
 import asyncWrapper from './asyncWrapper.js';
 import CustomErrorHandler from '../errors/CustomErrorHandler.js';
 import httpStatusCodes from '../utils/httpStatusCodes.js';
+import { verifyAccessToken } from '../utils/jwtUtils.js';
 
 const verifyToken = asyncWrapper(async (req, res, next) => {
   const headers = req.headers.authorization;
@@ -16,9 +16,9 @@ const verifyToken = asyncWrapper(async (req, res, next) => {
     );
   }
   const token = headers.split(' ')[1];
-  const user = jwt.verify(token, 'token_secret');
+  const decodedUser = verifyAccessToken(token);
 
-  req.user = await User.findById(user.id).select('-password');
+  req.user = await User.findById(decodedUser.id).select('-password');
 
   if (!req.user) {
     return next(
