@@ -2,8 +2,15 @@ import fs from 'fs';
 import formidable from 'formidable';
 import cloudinary from '../libs/cloudinary.js';
 
+const filter = ({ mimetype }) => {
+  // keep only images
+  return mimetype && mimetype.includes('image');
+};
+
 const form = formidable({
   uploadDir: 'temp',
+  maxFileSize: 1 * 1024 * 1024, // 1MB
+  filter,
 });
 
 const uploadPhoto = async (req, res, next) => {
