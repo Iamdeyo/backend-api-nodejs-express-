@@ -1,3 +1,3 @@
-## JWT Refresh token
+## File Uploads
 
-Implement JWT refresh tokens to enchance token security.
+Implement file uploads to server (images, documents, etc).

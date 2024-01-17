@@ -94,4 +94,41 @@ const changePassword = asyncWrapper(async (req, res, next) => {
   );
 });
 
-export { deleteAuser, getUser, getUsers, changePassword, editUser };
+const uploadDisplayPhoto = asyncWrapper(async (req, res, next) => {
+  const { id } = req.params;
+
+  checkPermission(req.user, id, next);
+
+  if (!req.files) {
+    return next(
+      new CustomErrorHandler('No File Uploaded', httpStatusCodes.BAD_REQUEST),
+    );
+  }
+
+  const user = await User.findByIdAndUpdate(id, {
+    displayPhoto: req.files.displayPhoto,
+  }).select('-password');
+
+  if (!user) {
+    return next(
+      new CustomErrorHandler('User not found', httpStatusCodes.NOT_FOUND),
+    );
+  }
+
+  return response(
+    res,
+    httpStatusCodes.OK,
+    true,
+    'Display Photo Uploaded',
+    user,
+  );
+});
+
+export {
+  deleteAuser,
+  getUser,
+  getUsers,
+  changePassword,
+  editUser,
+  uploadDisplayPhoto,
+};
